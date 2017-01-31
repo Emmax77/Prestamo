@@ -5,6 +5,7 @@
  */
 package prestamo;
 
+import static java.lang.Double.parseDouble;
 import static java.lang.Integer.parseInt;
 
 /**
@@ -86,14 +87,15 @@ public class Interfaz extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     
     
-    //FormulaFinanciera n = new FormulaFinanciera();
+    FormulaFinanciera n = new FormulaFinanciera();
+    
     private void btCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularActionPerformed
-    /*double monto = parseInt(texto1.getText());
-    double tasa = parseInt(texto2.getText());
+    double monto = parseDouble(texto1.getText());
+    double tasa = parseDouble(texto2.getText());
     int periodo = parseInt(texto3.getText());
     int limite = parseInt(texto4.getText());// TODO add your handling code here:
     double todo = n.generarCuota(monto, tasa, periodo, limite);
-    total.setText(String.valueOf(todo));*/
+    total.setText(String.valueOf(todo));
     }//GEN-LAST:event_btCalcularActionPerformed
 
     /**

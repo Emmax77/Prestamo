@@ -77,9 +77,9 @@ public class FormulaFinanciera {
         }
         return cuota;
     }
-
+/*
     public static void main(String[] args) {
         FormulaFinanciera fn = new FormulaFinanciera();
         fn.generarCuota(10000.0, 0.10, 12, 100);
-    }
+    }*/
 }
