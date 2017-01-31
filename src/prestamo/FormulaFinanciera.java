@@ -30,7 +30,7 @@ public class FormulaFinanciera {
         this.limite = limite;
         this.cuota = 0.0;
         cuota = monto * tasa / (12 * 100) + monto / periodos;
-        cuota = calcularCuota(monto, cuota, 1, limite);
+        cuota = calcularCuota(monto, cuota, 1, 1);
         imprimirCuota(limite, cuota, 1, tasaInteres, 0.0, 0.0);
         return cuota;
 
@@ -80,6 +80,6 @@ public class FormulaFinanciera {
 
     public static void main(String[] args) {
         FormulaFinanciera fn = new FormulaFinanciera();
-        fn.generarCuota(10000.0, 0.10, 12, 1);
+        fn.generarCuota(10000.0, 0.10, 12, 100);
     }
 }
