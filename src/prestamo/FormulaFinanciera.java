@@ -23,9 +23,10 @@ public class FormulaFinanciera {
     private int limite;
     private double cuota;
 
+
     public double generarCuota(double monto, double tasaInteres, int periodo, int limite) {
         cuota = monto * tasa / (12 * 100) + monto / periodo;
-        calcularCuota(monto, cuota, 1, limite);
+        cuota = calcularCuota(monto, cuota, 1, limite);
         imprimirCuota(limite, cuota, 1, tasaInteres, 0.0, 0.0);
         return cuota;
 
@@ -56,11 +57,15 @@ public class FormulaFinanciera {
     }
     
     public Double calcularCuota (Double saldo, Double cuota, int periodo, int profundidad ){
-    return cuota;
+        double intereses = saldo * tasa / 1200;
+        double amortizacion = cuota - intereses;
+        double nuevoSaldo = saldo - amortizacion;
+        imprimirCuota(profundidad,cuota,periodo,intereses,amortizacion,nuevoSaldo);
+        return cuota;
     }
     
     public static void main(String[] args) {
         FormulaFinanciera fn = new FormulaFinanciera();
-        fn.generarCuota(10000.0, 10.0, 12, 1);
+        fn.generarCuota(10000.0, 0.10, 12, 1);
     }
 }
