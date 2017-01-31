@@ -23,13 +23,12 @@ public class FormulaFinanciera {
     private int limite;
     private double cuota;
 
-
     public double generarCuota(double monto, double tasaInteres, int periodos, int limite) {
-        this.monto= monto;
+        this.monto = monto;
         this.tasa = tasaInteres;
         this.periodos = periodos;
-        this.limite= limite;
-        this.cuota= 0.0;
+        this.limite = limite;
+        this.cuota = 0.0;
         cuota = monto * tasa / (12 * 100) + monto / periodos;
         cuota = calcularCuota(monto, cuota, 1, limite);
         imprimirCuota(limite, cuota, 1, tasaInteres, 0.0, 0.0);
@@ -37,42 +36,48 @@ public class FormulaFinanciera {
 
     }
 
-    private void imprimirCuota( int profundidad,Double cuota,int periodo, Double intereses, Double amortizacion, Double nuevoSaldo) {
+    private void imprimirCuota(int profundidad, Double cuota, int periodo, Double intereses, Double amortizacion, Double nuevoSaldo) {
         String texto = "";
-        texto += "Profundidad =" +( String.valueOf(profundidad)+"  ").substring(0,3);
-        texto += " Periodo=" + ( String.valueOf(periodo)+"  ").substring(0,3);
-        texto += " Cuota=" + String.valueOf(cuota).substring(0,6);
-        texto += " Intereses=" + (String.valueOf(intereses)+"000000000").substring(0,6);
-        texto += " Amortizacion=" + (String.valueOf(amortizacion)+"000000000").substring(0,8);
-        texto += " NuevoSaldo=" + (String.valueOf(nuevoSaldo)+"000000000").substring(0,8);
+        texto += "Profundidad =" + (String.valueOf(profundidad) + "  ").substring(0, 3);
+        texto += " Periodo=" + (String.valueOf(periodo) + "  ").substring(0, 3);
+        texto += " Cuota=" + String.valueOf(cuota).substring(0, 6);
+        texto += " Intereses=" + (String.valueOf(intereses) + "000000000").substring(0, 6);
+        texto += " Amortizacion=" + (String.valueOf(amortizacion) + "000000000").substring(0, 8);
+        texto += " NuevoSaldo=" + (String.valueOf(nuevoSaldo) + "000000000").substring(0, 8);
         System.out.println(texto);
     }
-    private void imprimirNuevaCuota ( int profundidad, Double nuevoSaldo, Double cuota, Double nuevaCuota) {
+
+    private void imprimirNuevaCuota(int profundidad, Double nuevoSaldo, Double cuota, Double nuevaCuota) {
         String texto = "";
         String direccion = ">>>>";
-        if ( nuevoSaldo < 0 ) {
+        if (nuevoSaldo < 0) {
             direccion = "<<<<";
         }
-     texto += direccion + "Calculo de nueva cuota ";
-     texto += " Profundidad =" +(String.valueOf(profundidad)+"  ").substring(0,3);
-     texto += " Cuota="+ String.valueOf(cuota).substring(0,6);
-     texto += " Nueva Cuota="+ String.valueOf(nuevaCuota).substring(0,6);
-     texto += " Diferencia="+ String.valueOf( Math.abs(nuevaCuota-cuota)).substring(0,6);
-     System.out.println(texto);
+        texto += direccion + "Calculo de nueva cuota ";
+        texto += " Profundidad =" + (String.valueOf(profundidad) + "  ").substring(0, 3);
+        texto += " Cuota=" + String.valueOf(cuota).substring(0, 6);
+        texto += " Nueva Cuota=" + String.valueOf(nuevaCuota).substring(0, 6);
+        texto += " Diferencia=" + String.valueOf(Math.abs(nuevaCuota - cuota)).substring(0, 6);
+        System.out.println(texto);
     }
-    
-    public Double calcularCuota (Double saldo, Double cuota, int periodo, int profundidad ){
+
+    public Double calcularCuota(Double saldo, Double cuota, int periodo, int profundidad) {
         double intereses = saldo * tasa / 1200;
         double amortizacion = cuota - intereses;
         double nuevoSaldo = saldo - amortizacion;
-        imprimirCuota(profundidad,cuota,periodo,intereses,amortizacion,nuevoSaldo);
-        
-        if (nuevoSaldo > 0 && periodo < this.periodos ){
-           return calcularCuota(nuevoSaldo,cuota,periodo+1,profundidad);
+        imprimirCuota(profundidad, cuota, periodo, intereses, amortizacion, nuevoSaldo);
+
+        if (nuevoSaldo > 0 && periodo < this.periodos) {
+            return calcularCuota(nuevoSaldo, cuota, periodo + 1, profundidad);
+        }
+        if (Math.abs(nuevoSaldo) > monto / (periodos * 1000) && profundidad < limite) {
+            Double nuevaCuota = cuota;
+            nuevaCuota = nuevaCuota + Math.signum(nuevoSaldo) * nuevaCuota / (2 * (profundidad + 1));
+            return calcularCuota(monto, nuevaCuota, 1, profundidad+1);
         }
         return cuota;
     }
-    
+
     public static void main(String[] args) {
         FormulaFinanciera fn = new FormulaFinanciera();
         fn.generarCuota(10000.0, 0.10, 12, 1);
