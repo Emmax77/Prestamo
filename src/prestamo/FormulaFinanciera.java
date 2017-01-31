@@ -19,13 +19,18 @@ public class FormulaFinanciera {
 
     private double monto;
     private double tasa;
-    private int periodo;
+    private int periodos;
     private int limite;
     private double cuota;
 
 
-    public double generarCuota(double monto, double tasaInteres, int periodo, int limite) {
-        cuota = monto * tasa / (12 * 100) + monto / periodo;
+    public double generarCuota(double monto, double tasaInteres, int periodos, int limite) {
+        this.monto= monto;
+        this.tasa = tasaInteres;
+        this.periodos = periodos;
+        this.limite= limite;
+        this.cuota= 0.0;
+        cuota = monto * tasa / (12 * 100) + monto / periodos;
         cuota = calcularCuota(monto, cuota, 1, limite);
         imprimirCuota(limite, cuota, 1, tasaInteres, 0.0, 0.0);
         return cuota;
@@ -43,11 +48,11 @@ public class FormulaFinanciera {
         System.out.println(texto);
     }
     private void imprimirNuevaCuota ( int profundidad, Double nuevoSaldo, Double cuota, Double nuevaCuota) {
-     String texto = "";
-     String direccion = ">>>>";
-     if ( nuevoSaldo < 0 ) {
-         direccion = "<<<<";
-     }
+        String texto = "";
+        String direccion = ">>>>";
+        if ( nuevoSaldo < 0 ) {
+            direccion = "<<<<";
+        }
      texto += direccion + "Calculo de nueva cuota ";
      texto += " Profundidad =" +(String.valueOf(profundidad)+"  ").substring(0,3);
      texto += " Cuota="+ String.valueOf(cuota).substring(0,6);
@@ -61,6 +66,10 @@ public class FormulaFinanciera {
         double amortizacion = cuota - intereses;
         double nuevoSaldo = saldo - amortizacion;
         imprimirCuota(profundidad,cuota,periodo,intereses,amortizacion,nuevoSaldo);
+        
+        if (nuevoSaldo > 0 && periodo < this.periodos ){
+           return calcularCuota(nuevoSaldo,cuota,periodo+1,profundidad);
+        }
         return cuota;
     }
     
